@@ -14,7 +14,7 @@ export const AllMeetups = props => {
         if (isLoading) {
             dispatch(allMeetupsActions.init());
         }
-    }, [isLoading]);
+    }, [isLoading, dispatch]);
 
     return (
         <Loader isLoading={isLoading}>

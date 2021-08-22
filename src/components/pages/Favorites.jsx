@@ -16,7 +16,7 @@ export const Favorites = props => {
         if (isLoading) {
             dispatch(allMeetupsActions.init());
         }
-    }, [isLoading]);
+    }, [isLoading, dispatch]);
 
     return (
         <Loader isLoading={isLoading}>
