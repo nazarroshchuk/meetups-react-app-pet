@@ -18,9 +18,9 @@ export const MeetupItem = ({ item, isFavorite, deleteEnable }) => {
         dispatch(allMeetupsActions.toggleFavorites(item.id, isFavorite))
     }
 
-    const deleteMeetupHandler = () => {
-        dispatch(allMeetupsActions.deleteMeetup(item.id));
-    }
+    // const deleteMeetupHandler = () => {
+    //     dispatch(allMeetupsActions.deleteMeetup(item.id));
+    // }
 
     return (
         <li className={classes.item}>
