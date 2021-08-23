@@ -22,7 +22,7 @@ export const MainNavigation = () => {
                         </NavLink>
                     </li>
                     <li>
-                        <NavLink activeClassName={classes.active} to='/new-meetups'>Add New Meetup</NavLink>
+                        <NavLink activeClassName={classes.active} to='/new-meetup'>Add New Meetup</NavLink>
                     </li>
                 </ul>
             </nav>
