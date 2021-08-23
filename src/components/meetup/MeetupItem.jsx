@@ -38,7 +38,7 @@ export const MeetupItem = ({ item, isFavorite, deleteEnable }) => {
                        <span>{isLoading && <LoaderButton />}</span>
                    </button>
                    <div onClick={toggleFavoritesStatusHandler}><img src={isFavorite ? heartImg : likeImg} alt={'heart'}/></div>
-                   {deleteEnable && <div onClick={deleteMeetupHandler}><img src="https://img.icons8.com/cute-clipart/64/000000/delete-forever.png"/></div>}
+                   {deleteEnable && <div onClick={deleteMeetupHandler}><img src="https://img.icons8.com/cute-clipart/64/000000/delete-forever.png" alt='delete'/></div>}
                </div>
            </Card>
         </li>
