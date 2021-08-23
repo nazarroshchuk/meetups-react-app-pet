@@ -3,12 +3,12 @@ import classes from './MeetupItem.module.css'
 
 import heartImg from '../../assets/heart.png';
 import likeImg from '../../assets/like.png';
+import deleteImg from '../../assets/deleteIcon.png';
 import { Card } from '../UI/Card';
 import { useDispatch, useSelector } from "react-redux";
 import { allMeetupsActions } from "../../actions/all-meetups.actions";
 import { RequestStatuses } from "../../constants/requestStatuses";
 import { LoaderButton } from '../UI/LoaderButton';
-import deleteImg from '../../assets/delete.png';
 
 export const MeetupItem = ({ item, isFavorite, deleteEnable }) => {
     const dispatch = useDispatch();
@@ -19,7 +19,7 @@ export const MeetupItem = ({ item, isFavorite, deleteEnable }) => {
     }
 
     const deleteMeetupHandler = () => {
-    dispatch(allMeetupsActions.deleteMeetup(item.id));
+        dispatch(allMeetupsActions.deleteMeetup(item.id));
     }
 
     return (
