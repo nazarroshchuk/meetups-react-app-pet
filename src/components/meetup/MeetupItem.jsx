@@ -3,7 +3,7 @@ import classes from './MeetupItem.module.css'
 
 import heartImg from '../../assets/heart.png';
 import likeImg from '../../assets/like.png';
-import deleteImg from '../../assets/trash.png';
+//import deleteImg from '../../assets/trash.png';
 import { Card } from '../UI/Card';
 import { useDispatch, useSelector } from "react-redux";
 import { allMeetupsActions } from "../../actions/all-meetups.actions";
@@ -39,7 +39,7 @@ export const MeetupItem = ({ item, isFavorite, deleteEnable }) => {
                        <span>{isLoading && <LoaderButton />}</span>
                    </button>
                    <div onClick={toggleFavoritesStatusHandler}><img src={isFavorite ? heartImg : likeImg} alt={'heart'}/></div>
-                   {deleteEnable && <div onClick={deleteMeetupHandler}><img src={deleteImg || ''} alt={'delete'}/></div>}
+                   {/*{deleteEnable && <div onClick={deleteMeetupHandler}><img src={deleteImg || ''} alt={'delete'}/></div>}*/}
                </div>
            </Card>
         </li>
