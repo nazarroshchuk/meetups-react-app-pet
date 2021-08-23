@@ -3,10 +3,24 @@ import {actionsTypes} from "../constants/actionsTypes";
 export const allMeetupsActions = {
     loadAllMeetups,
     saveMeetups,
-    loadingStatus,
-    addFavorite,
-    removeFavorite,
+    setMeetupsRequestStatus,
+    toggleFavorites,
+    setFavoritesRequestStatus,
+    deleteMeetup,
     init
+}
+
+function init() {
+    return {
+        type: actionsTypes.ALL_MEETUPS_INIT,
+    }
+}
+
+function deleteMeetup(id) {
+    return {
+        type: actionsTypes.ALL_MEETUP_DELETE,
+        payload: { id },
+    }
 }
 
 function loadAllMeetups() {
@@ -22,29 +36,23 @@ function saveMeetups(meetups) {
     }
 }
 
-function loadingStatus(requestStatus) {
+function setMeetupsRequestStatus(requestStatus) {
     return {
         type: actionsTypes.ALL_MEETUPS_SET_REQUEST_STATUS,
         payload: { requestStatus }
     }
 }
 
-function addFavorite(favoriteId) {
+function toggleFavorites(favoriteId, isFavorite) {
     return {
-        type: actionsTypes.FAVORITES_ADD_STATE,
-        payload: { favoriteId },
+        type: actionsTypes.FAVORITES_TOGGLE,
+        payload: { favoriteId, isFavorite },
     }
 }
 
-function removeFavorite(favoriteId) {
+function setFavoritesRequestStatus(favoritesRequestStatus) {
     return {
-        type: actionsTypes.FAVORITES_REMOVE_STATE,
-        payload: { favoriteId }
-    }
-}
-
-function init() {
-    return {
-        type: actionsTypes.ALL_MEETUPS_INIT,
+        type: actionsTypes.FAVORITES_MEETUPS_SET_REQUEST_STATUS,
+        payload: { favoritesRequestStatus }
     }
 }

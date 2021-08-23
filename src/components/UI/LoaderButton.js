@@ -1,12 +1,10 @@
 import React from 'react';
 
-import classes from './Loader.module.css';
-import { Container } from "./Container";
+import classes from './LoaderButton.module.css';
 
-export const  Loader = ({ isLoading = true, children }) => {
+export const  LoaderButton = ({ isLoading = true, children }) => {
     if (isLoading) {
         return (
-            <Container>
                 <div className={classes.ldsSpinner}>
                     <div></div>
                     <div></div>
@@ -21,7 +19,6 @@ export const  Loader = ({ isLoading = true, children }) => {
                     <div></div>
                     <div></div>
                 </div>
-            </Container>
         )
     }
 

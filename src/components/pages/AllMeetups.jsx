@@ -3,11 +3,12 @@ import { MeetupList } from "../meetup/MeetupList";
 import { useDispatch, useSelector } from "react-redux";
 import { allMeetupsActions } from "../../actions/all-meetups.actions";
 import { Loader } from "../UI/Loader";
+import { RequestStatuses } from "../../constants/requestStatuses";
 
 export const AllMeetups = props => {
     const meetups = useSelector(state => state.allMeetups.meetups);
     const requestStatus = useSelector(state => state.allMeetups.requestStatus);
-    const isLoading = requestStatus !== 'success';
+    const isLoading = requestStatus !== RequestStatuses.SUCCESS;
     const dispatch = useDispatch();
 
     useEffect(() => {
@@ -22,7 +23,7 @@ export const AllMeetups = props => {
                 <h1>All Meetups</h1>
                 {
                     meetups && !!meetups.length &&
-                    <MeetupList data={meetups}/>
+                    <MeetupList deleteEnable={true} data={meetups}/>
                 }
             </section>
         </Loader>

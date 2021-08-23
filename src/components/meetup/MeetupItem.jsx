@@ -1,19 +1,25 @@
 import React from 'react';
 import classes from './MeetupItem.module.css'
 
-import heart from '../../assets/heart.png';
-import like from '../../assets/like.png';
+import heartImg from '../../assets/heart.png';
+import likeImg from '../../assets/like.png';
 import { Card } from '../UI/Card';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { allMeetupsActions } from "../../actions/all-meetups.actions";
+import { RequestStatuses } from "../../constants/requestStatuses";
+import { LoaderButton } from '../UI/LoaderButton';
+import deleteImg from '../../assets/delete.png';
 
-export const MeetupItem = ({ item, isFavorite }) => {
-    const dispatch = useDispatch()
+export const MeetupItem = ({ item, isFavorite, deleteEnable }) => {
+    const dispatch = useDispatch();
+    const isLoading = useSelector(state => state.allMeetups.favoritesRequestStatus) === RequestStatuses.LOADING;
 
     const toggleFavoritesStatusHandler = () => {
-        isFavorite
-            ? dispatch(allMeetupsActions.removeFavorite(item.id))
-            : dispatch(allMeetupsActions.addFavorite(item.id));
+        dispatch(allMeetupsActions.toggleFavorites(item.id, isFavorite))
+    }
+
+    const deleteMeetupHandler = () => {
+    dispatch(allMeetupsActions.deleteMeetup(item.id));
     }
 
     return (
@@ -28,8 +34,12 @@ export const MeetupItem = ({ item, isFavorite }) => {
                    <p>{item.description}</p>
                </div>
                <div className={classes.actions}>
-                   <button onClick={toggleFavoritesStatusHandler}>{isFavorite ? 'Remove from Favorites' : 'To Favorites'}</button>
-                   <div onClick={toggleFavoritesStatusHandler}><img src={isFavorite ? heart : like} alt={'heart'}/></div>
+                   <button onClick={toggleFavoritesStatusHandler}>
+                       {isFavorite ? 'Remove from Favorites' : 'To Favorites'}
+                       <span>{isLoading && <LoaderButton />}</span>
+                   </button>
+                   <div onClick={toggleFavoritesStatusHandler}><img src={isFavorite ? heartImg : likeImg} alt={'heart'}/></div>
+                   {deleteEnable && <div onClick={deleteMeetupHandler}><img src={deleteImg} alt={'delete'}/></div>}
                </div>
            </Card>
         </li>

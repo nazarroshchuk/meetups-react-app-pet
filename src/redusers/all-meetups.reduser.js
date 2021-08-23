@@ -1,8 +1,9 @@
-import {actionsTypes} from "../constants/actionsTypes";
+import { actionsTypes } from "../constants/actionsTypes";
 
 const initialState = {
     meetups: [],
     requestStatus: null,
+    favoritesRequestStatus: null,
 }
 
 export const allMeetups = (state= initialState, action) => {
@@ -16,6 +17,11 @@ export const allMeetups = (state= initialState, action) => {
             return {
                 ...state,
                 requestStatus: action.payload.requestStatus
+            }
+        case actionsTypes.FAVORITES_MEETUPS_SET_REQUEST_STATUS:
+            return {
+                ...state,
+                favoritesRequestStatus: action.payload.favoritesRequestStatus
             }
         default: return state;
     }

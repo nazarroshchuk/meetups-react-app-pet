@@ -6,17 +6,11 @@ export const servicesMeetups = {
     getAllMeetups,
     deleteFavorite,
     addFavorite,
+    deleteMeetup,
 }
 
 function getAllMeetups() {
-    return fetch(DATA_BASE_URL.URL + 'meetups.json')
-        .then(response => {
-            if (response.ok) {
-                return response.json()
-            }
-            return failure(response);
-        })
-
+    return fetchSave(DATA_BASE_URL.URL + 'meetups.json');
 }
 
 function addFavorite(id) {
@@ -59,10 +53,16 @@ function addNewMeetup(data) {
     })
 }
 
-const failure = response =>
-    response
-        .text()
-        .then(text => Promise.reject({
-            status: response.status,
-            message: (text || response.statusText)
-        }));
+function deleteMeetup(id) {
+    const requestOption = {
+        method: 'DELETE',
+        body: null,
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }
+
+    return fetchSave(DATA_BASE_URL.URL + `/meetups/${id}.json`, requestOption);
+}
+
+

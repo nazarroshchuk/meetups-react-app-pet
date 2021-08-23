@@ -3,50 +3,53 @@ import { actionsTypes } from "../constants/actionsTypes";
 import { firebaseDataConverterToArray } from "../utils/firebaseDataConverterToArray";
 import { allMeetupsActions } from "../actions/all-meetups.actions";
 import { servicesMeetups } from "../services/meetups";
+import { RequestStatuses } from "../constants/requestStatuses";
+import { errorActions } from "../actions/errors.actions";
 
 
 function* init() {
     const requestStatus = yield select(state => state.allMeetups.requestStatus);
-    console.log(requestStatus)
-    if (requestStatus !== 'success') {
-        yield put(allMeetupsActions.loadingStatus('loading'));
+    if (requestStatus !== RequestStatuses.SUCCESS) {
+        yield put(allMeetupsActions.setMeetupsRequestStatus(RequestStatuses.LOADING));
     }
     try {
         const responseMeetups = yield call(servicesMeetups.getAllMeetups);
         const meetups = firebaseDataConverterToArray(responseMeetups);
         yield put(allMeetupsActions.saveMeetups(meetups));
-        yield put(allMeetupsActions.loadingStatus('success'));
-    } catch (error)  {
-        console.log(error);
-        yield put(allMeetupsActions.loadingStatus('failed'));
-    } finally {
-
+        yield put(allMeetupsActions.setMeetupsRequestStatus(RequestStatuses.SUCCESS));
+    } catch (e) {
+        yield put(errorActions.setCriticalError(e));
+        yield put(allMeetupsActions.setMeetupsRequestStatus(RequestStatuses.FAILED));
     }
 }
 
-function* addFavorites(action) {
+function* toggleFavorites(action) {
+    const { favoriteId, isFavorite } = action.payload
+    yield put(allMeetupsActions.setFavoritesRequestStatus(RequestStatuses.LOADING));
     try {
-        const response = yield call(servicesMeetups.addFavorite, action.payload.favoriteId);
-        console.log(response)
+        isFavorite
+            ? yield call(servicesMeetups.deleteFavorite, favoriteId)
+            : yield call(servicesMeetups.addFavorite, favoriteId);
+
+        yield put(allMeetupsActions.setFavoritesRequestStatus(RequestStatuses.SUCCESS));
         yield put(allMeetupsActions.init());
     } catch (e) {
-        console.log(e)
+        yield put(errorActions.setCriticalError(e));
+        yield put(allMeetupsActions.setFavoritesRequestStatus(RequestStatuses.FAILED));
     }
 }
 
-function* deleteFavorites(action) {
+function* deleteMeetup(action) {
     try {
-        const response = yield call(servicesMeetups.deleteFavorite, action.payload.favoriteId);
-        console.log(response)
+        yield call(servicesMeetups.deleteMeetup, action.payload.id);
         yield put(allMeetupsActions.init());
     } catch (e) {
-        console.log(e)
+        yield put(errorActions.setCriticalError(e));
     }
 }
-
 
 export function* watchAllMeetups() {
     yield takeEvery(actionsTypes.ALL_MEETUPS_INIT, init);
-    yield takeEvery(actionsTypes.FAVORITES_ADD_STATE, addFavorites);
-    yield takeEvery(actionsTypes.FAVORITES_REMOVE_STATE, deleteFavorites);
+    yield takeEvery(actionsTypes.ALL_MEETUP_DELETE, deleteMeetup);
+    yield takeEvery(actionsTypes.FAVORITES_TOGGLE, toggleFavorites);
 }

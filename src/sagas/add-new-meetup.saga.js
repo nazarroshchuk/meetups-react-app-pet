@@ -1,16 +1,16 @@
-import { takeEvery, call } from 'redux-saga/effects';
+import {takeEvery, call, put} from 'redux-saga/effects';
 import { actionsTypes } from "../constants/actionsTypes";
 import { history } from "../history";
 import { servicesMeetups } from "../services/meetups";
+import { errorActions } from "../actions/errors.actions";
 
 function* submitNewMeetup(action) {
     const meetupData = action.payload.meetupData;
-    yield console.log(meetupData);
     try {
         yield call(servicesMeetups.addNewMeetup, meetupData);
         history.push('/');
-    } catch (error) {
-        console.log(error)
+    } catch (e) {
+        yield put(errorActions.setCriticalError(e));
     }
 }
 

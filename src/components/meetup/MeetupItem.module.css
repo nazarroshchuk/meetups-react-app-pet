@@ -46,6 +46,11 @@
     border-radius: 4px;
 }
 
+.actions span {
+    width: 30px;
+    height: 30px;
+}
+
 .actions button:hover,
 .actions button:active {
     background-color: #ffe2ed;
