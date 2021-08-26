@@ -5,6 +5,8 @@ import { allMeetupsActions } from "../actions/all-meetups.actions";
 import { servicesMeetups } from "../services/meetups";
 import { RequestStatuses } from "../constants/requestStatuses";
 import { errorActions } from "../actions/errors.actions";
+import { notificationsActions } from "../actions/notifications.actions";
+
 
 
 function* init() {
@@ -15,7 +17,8 @@ function* init() {
     try {
         const responseMeetups = yield call(servicesMeetups.getAllMeetups);
         const meetups = firebaseDataConverterToArray(responseMeetups);
-        yield put(allMeetupsActions.saveMeetups(meetups));
+        const sortedMeetups = meetups.sort((a , b) => b.id.localeCompare(a.id));
+        yield put(allMeetupsActions.saveMeetups(sortedMeetups));
         yield put(allMeetupsActions.setMeetupsRequestStatus(RequestStatuses.SUCCESS));
     } catch (e) {
         yield put(errorActions.setCriticalError(e));
@@ -43,6 +46,8 @@ function* deleteMeetup(action) {
     try {
         yield call(servicesMeetups.deleteMeetup, action.payload.id);
         yield put(allMeetupsActions.init());
+        yield put(notificationsActions.setNotificationMessage('Deleted', 'Your new meetup was deleted!'));
+        yield put(notificationsActions.showNotificationMessage(true));
     } catch (e) {
         yield put(errorActions.setCriticalError(e));
     }

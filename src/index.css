@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap');
 
 * {
     box-sizing: border-box;
 }
 
 body {
-    font-family: sans-serif;
+    font-family: 'Klee One', cursive;
     background-color: #dfdfdf;
     margin: 0;
     padding: 0;

@@ -27,6 +27,10 @@
     text-align: right;
 }
 
+.actions span {
+    padding: 0.5rem 1.5rem;
+}
+
 .actions button {
     font: inherit;
     cursor: pointer;

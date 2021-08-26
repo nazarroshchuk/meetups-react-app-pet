@@ -1,11 +1,14 @@
 import React, { useRef } from "react";
 import classes from './NewMeetupForm.module.css';
 import { Card } from "../UI/Card";
-import {useDispatch} from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {addNewMeetupAction} from "../../actions/add-new-meetup.actions";
+import { LoaderButton } from "../UI/LoaderButton";
+import {RequestStatuses} from "../../constants/requestStatuses";
 
 export const NewMeetupForm = () => {
     const dispatch = useDispatch();
+    const isLoading = useSelector(state => state.addNewMeetup.submitMeetupRequest) === RequestStatuses.LOADING
 
     const titleInputRef = useRef();
     const imageInputRef = useRef();
@@ -36,15 +39,27 @@ export const NewMeetupForm = () => {
             <form className={classes.form} onSubmit={submitHandler}>
                 <div className={classes.control}>
                     <label htmlFor='title'>Meetup Title</label>
-                    <input type='text' required id='title' ref={titleInputRef} />
+                    <input
+                        type='text'
+                        required
+                        id='title'
+                        ref={titleInputRef} />
                 </div>
                 <div className={classes.control}>
-                    <label htmlFor='image'>Meetup Image</label>
-                    <input type='url' required id='image' ref={imageInputRef} />
+                    <label htmlFor='image'>Meetup Image URL</label>
+                    <input
+                        type='url'
+                        required
+                        id='image'
+                        ref={imageInputRef} />
                 </div>
                 <div className={classes.control}>
                     <label htmlFor='address'>Address</label>
-                    <input type='text' required id='address' ref={addressInputRef} />
+                    <input
+                        type='text'
+                        required
+                        id='address'
+                        ref={addressInputRef} />
                 </div>
                 <div className={classes.control}>
                     <label htmlFor='description'>Description</label>
@@ -57,7 +72,7 @@ export const NewMeetupForm = () => {
                     </textarea>
                 </div>
                 <div className={classes.actions}>
-                    <button>Add Meetup</button>
+                    <button>{isLoading ? <span><LoaderButton/></span> : 'Add Meetup'}</button>
                 </div>
             </form>
         </Card>
